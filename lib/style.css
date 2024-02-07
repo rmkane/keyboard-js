@@ -29,7 +29,7 @@ body {
   padding: 0.25rem;
 }
 
-.key {
+.keyboard-key {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,5 +37,6 @@ body {
   padding: 0.125rem;
   width: 2rem;
   aspect-ratio: 1 / 1;
+  font-size: 0.75rem;
   background-color: var(--key-bg);
 }

@@ -3,12 +3,12 @@ import "./style.css";
 import keys from "./data/keys.json";
 import fullLayout from "./data/layouts/full.json";
 
-type KeyValue = { key: string; code: string };
+type KeyValue = { key: string; code: string; unicode?: string };
 type KeyData = { which: number } & KeyValue;
 
-type LayoutData = {
+type Region = {
   data: {
-    region: string;
+    name: string;
     keys: number[] | number[][] | number[][][];
   };
   metadata: {
@@ -18,8 +18,20 @@ type LayoutData = {
   };
 };
 
+type Sector = {
+  data: {
+    name: string;
+    regions: Region[];
+  };
+};
+
+type LayoutData = {
+  sectors: Sector[];
+};
+
 const keyMap = (keys as KeyData[]).reduce(
-  (lookup, { which, key, code }) => lookup.set(which, { key, code }),
+  (lookup, { which, key, code, unicode }) =>
+    lookup.set(which, { key, code, unicode }),
   new Map<number, KeyValue>()
 );
 
@@ -75,17 +87,46 @@ function renderKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
 }
 
 function renderFullKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
-  (fullLayout as LayoutData[]).forEach(({ data, metadata }) => {
-    const regionEl = document.createElement("div");
-    regionEl.dataset.region = data.region;
-    regionEl.style.display = metadata.display;
+  keyboardEl.style.display = "flex";
+  keyboardEl.style.flexDirection = "row";
 
-    if (regionEl.style.display === "grid") {
+  (fullLayout as LayoutData).sectors.forEach((sector) => {
+    keyboardEl.append(renderSector(sector, opts));
+  });
+}
+
+function renderSector(sector: Sector, opts: LayoutOptions) {
+  const { data } = sector;
+  const sectorEl = document.createElement("div");
+  sectorEl.classList.add("keyboard-sector");
+  sectorEl.style.display = "flex";
+  sectorEl.style.flexDirection = "column";
+  data.regions.forEach((region) => {
+    sectorEl.append(renderRegion(region, opts));
+  });
+  return sectorEl;
+}
+
+function renderRegion(region: Region, opts: LayoutOptions) {
+  const { data, metadata } = region;
+  const regionEl = document.createElement("div");
+  regionEl.classList.add("keyboard-region");
+  regionEl.style.display = "flex";
+  regionEl.style.flexDirection = "column";
+  regionEl.dataset.region = data.name;
+  regionEl.style.display = metadata.display;
+
+  switch (regionEl.style.display) {
+    case "grid": {
       regionEl.style.gridTemplateColumns = `repeat(${metadata.cols}, auto)`;
+
       (data.keys as number[]).forEach((which) => {
         regionEl.append(renderKey(which, opts));
       });
-    } else if (regionEl.style.display === "flex") {
+
+      break;
+    }
+    case "flex": {
       if (isNumberArray(data.keys)) {
         (data.keys as number[]).forEach((which) => {
           regionEl.append(renderKey(which, opts));
@@ -93,6 +134,8 @@ function renderFullKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
       } else if (isNumberArray2D(data.keys)) {
         (data.keys as number[][]).forEach((row) => {
           const rowEl = document.createElement("div");
+          rowEl.style.display = "flex";
+          rowEl.style.flexDirection = "row";
           row.forEach((which) => {
             rowEl.append(renderKey(which, opts));
           });
@@ -101,24 +144,28 @@ function renderFullKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
       } else {
         throw new Error("Unsupported n-dimensional array");
       }
+
+      break;
     }
-    keyboardEl.append(regionEl);
-  });
+  }
+
+  return regionEl;
 }
 
 function renderKey(which: number, opts: LayoutOptions) {
-  const keyElement: HTMLDivElement = document.createElement("div");
-  keyElement.classList.add("key");
-  keyElement.textContent = which.toString();
-  return keyElement;
+  const keyEl: HTMLDivElement = document.createElement("div");
+  keyEl.classList.add("keyboard-key");
+  const { key, code, unicode } = keyMap.get(which) ?? {};
+  keyEl.dataset.which = which.toString();
+  keyEl.dataset.key = key;
+  keyEl.dataset.code = code;
+  keyEl.textContent = unicode ?? key ?? which.toString();
+  return keyEl;
 }
 
 function renderTklKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
   for (let i = 0; i < 10; i++) {
-    const keyElement: HTMLDivElement = document.createElement("div");
-    keyElement.classList.add("key");
-    keyElement.textContent = i.toString();
-    keyboardEl.append(keyElement);
+    keyboardEl.append(renderKey(i, opts));
   }
 }
 
