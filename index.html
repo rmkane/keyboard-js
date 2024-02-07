@@ -10,9 +10,9 @@
     <div class="keyboard">Keyboard</div>
     <script type="module" src="/lib/main.ts"></script>
     <script type="module">
-      import Keyboard from "./lib/main.ts";
+      import * as KeyboardJS from "./lib/index.ts";
 
-      Keyboard("qwerty");
+      KeyboardJS.initializeLayout(".keyboard");
     </script>
   </body>
 </html>
