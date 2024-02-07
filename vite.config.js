@@ -11,7 +11,7 @@ export default defineConfig({
       entry: resolve(__dirname, "lib/index.ts"),
       name: "KeyboardJS",
       fileName: (format) => `keyboard-js.${format}.js`,
-      formats: ['cjs', 'es', 'iife', 'umd']
+      formats: ["cjs", "es", "iife", "umd"],
     },
   },
 });
