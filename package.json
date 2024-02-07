@@ -1,0 +1,26 @@
+{
+  "name": "keyboard-js",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/keyboard-js.umd.js",
+  "module": "./dist/keyboard-js.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/keyboard-js.es.js",
+      "require": "./dist/keyboard-js.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
+  }
+}
