@@ -1,5 +1,30 @@
 import "./style.css";
 
+import keys from "./data/keys.json";
+import fullLayout from "./data/layouts/full.json";
+
+type KeyValue = { key: string; code: string };
+type KeyData = { which: number } & KeyValue;
+
+type LayoutData = {
+  data: {
+    region: string;
+    keys: number[] | number[][] | number[][][];
+  };
+  metadata: {
+    display: "grid" | "flex";
+    rows: number;
+    cols: number;
+  };
+};
+
+const keyMap = (keys as KeyData[]).reduce(
+  (lookup, { which, key, code }) => lookup.set(which, { key, code }),
+  new Map<number, KeyValue>()
+);
+
+console.log(fullLayout);
+
 type OperatingSystemType = "mac" | "windows";
 type KeyboardType = "full" | "tkl";
 
