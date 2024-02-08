@@ -83,6 +83,8 @@ function renderRegion(region: Region, opts: LayoutOptions) {
 
   switch (type) {
     case "region-grid": {
+      regionEl.classList.add("keyboard-region-grid");
+
       const gridRegion = region as GridRegion;
       gridRegion.keys.forEach((which) => {
         regionEl.append(renderKey(which, opts, region));

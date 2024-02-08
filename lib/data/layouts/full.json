@@ -99,7 +99,6 @@
           "name": "control-pad",
           "keys": [45, 36, 33, 46, 35, 34],
           "style": {
-            "display": "grid",
             "gridTemplateColumns": "repeat(3, auto)"
           }
         },
@@ -136,21 +135,17 @@
             13, 96, 110
           ],
           "style": {
-            "display": "grid",
             "gridTemplateColumns": "repeat(4, auto)"
           },
           "keyStyle": {
             "107": {
-              "gridRow": "span 2",
-              "height": "2.33rem"
+              "gridRow": "span 2"
             },
             "13": {
-              "gridRow": "span 2",
-              "height": "2.33rem"
+              "gridRow": "span 2"
             },
             "96": {
-              "gridColumn": "span 2",
-              "width": "2.33rem"
+              "gridColumn": "span 2"
             }
           }
         }

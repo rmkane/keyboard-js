@@ -35,9 +35,15 @@ body {
   flex-direction: column;
 }
 
+.keyboard-region-grid {
+  display: grid;
+  gap: 0.125rem;
+}
+
 .keyboard-row {
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: center;
 }
 
@@ -56,8 +62,14 @@ body {
   justify-content: center;
   border: thin solid grey;
   padding: 0.125rem;
-  width: 1rem;
-  height: 1rem;
+  min-width: 1rem;
+  min-height: 1rem;
   font-size: 0.5rem;
   background-color: var(--key-bg);
+  text-transform: capitalize;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.keyboard-region-grid .keyboard-key {
+  flex: 1;
 }
