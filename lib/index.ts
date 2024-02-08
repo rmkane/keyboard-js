@@ -16,9 +16,11 @@ import type {
 
 import keys from "./data/keys.json";
 import fullLayout from "./data/layouts/full.json";
+import standardFormat from "./data/formats/standard.json";
 
 const defaultOptions: LayoutOptions = {
   keyboardType: "full",
+  format: "standard",
   os: "windows",
 };
 
@@ -53,9 +55,6 @@ function renderKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
 }
 
 function renderFullKeyboard(keyboardEl: HTMLDivElement, opts: LayoutOptions) {
-  keyboardEl.style.display = "flex";
-  keyboardEl.style.flexDirection = "row";
-
   (fullLayout as Layout).sectors.forEach((sector) => {
     keyboardEl.append(renderSector(sector, opts));
   });
@@ -65,8 +64,6 @@ function renderSector(sector: Sector, opts: LayoutOptions) {
   const { regions } = sector;
   const sectorEl = document.createElement("div");
   sectorEl.classList.add("keyboard-sector");
-  sectorEl.style.display = "flex";
-  sectorEl.style.flexDirection = "column";
   regions.forEach((region) => {
     sectorEl.append(renderRegion(region, opts));
   });
@@ -128,10 +125,6 @@ function renderRegion(region: Region, opts: LayoutOptions) {
 }
 
 function renderKey(which: number, opts: LayoutOptions, region: BasicRegion) {
-  if (opts.os === "windows") {
-    console.log("Windows!");
-  }
-
   const keyEl: HTMLDivElement = document.createElement("div");
   keyEl.classList.add("keyboard-key");
 
@@ -139,7 +132,19 @@ function renderKey(which: number, opts: LayoutOptions, region: BasicRegion) {
   keyEl.dataset.which = which.toString();
   keyEl.dataset.key = key;
   keyEl.dataset.code = code;
-  keyEl.textContent = unicode ?? key ?? which.toString();
+
+  const symbols = standardFormat.find((k) => k.which === which)?.symbols;
+  if (symbols) {
+    keyEl.append(
+      ...symbols.map((symbol) => {
+        const symbolEl = document.createElement("div");
+        symbolEl.innerHTML = symbol.replace("\n", "<br>");
+        return symbolEl;
+      })
+    );
+  } else {
+    //keyEl.textContent = unicode ?? key ?? which.toString();
+  }
 
   Object.assign(keyEl.style, region.keyStyle?.[which.toString()]);
 

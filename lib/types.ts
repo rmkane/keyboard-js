@@ -1,12 +1,17 @@
 type OperatingSystemType = "mac" | "windows";
 type KeyboardType = "full" | "tkl";
+type KeyboardFormat = "standard";
 
 // data/keys.json
 type KeyValue = { key: string; code: string; unicode?: string };
 type KeyData = { which: number } & KeyValue;
 
+// data/formats.json
+type KeyFormat = { which: number; symbols: null | string[] };
+
 // data/layouts/*.json
 type LayoutOptions = {
+  format?: KeyboardFormat;
   keyboardType?: KeyboardType;
   os?: OperatingSystemType;
 };
@@ -67,6 +72,7 @@ export type {
   GroupRow,
   KeyboardType,
   KeyData,
+  KeyFormat,
   KeyGroup,
   Keys,
   KeyValue,
