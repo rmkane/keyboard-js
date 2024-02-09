@@ -133,9 +133,12 @@ function renderKey(which: number, opts: LayoutOptions, region: BasicRegion) {
   keyEl.dataset.key = key;
   keyEl.dataset.code = code;
 
+  const keyInnerEl = document.createElement("kbd");
+  keyInnerEl.classList.add("keyboard-key-inner");
+
   const symbols = standardFormat.find((k) => k.which === which)?.symbols;
   if (symbols) {
-    keyEl.append(
+    keyInnerEl.append(
       ...symbols.map((symbol) => {
         const symbolEl = document.createElement("div");
         symbolEl.innerHTML = symbol.replace("\n", "<br>");
@@ -145,6 +148,8 @@ function renderKey(which: number, opts: LayoutOptions, region: BasicRegion) {
   } else {
     //keyEl.textContent = unicode ?? key ?? which.toString();
   }
+
+  keyEl.append(keyInnerEl);
 
   Object.assign(keyEl.style, region.keyStyle?.[which.toString()]);
 

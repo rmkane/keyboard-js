@@ -75,7 +75,7 @@ body {
   padding: 0.125rem;
   min-width: 1rem;
   min-height: 1rem;
-  font-size: 0.5rem;
+  font-size: 0.33rem;
   background-color: var(--key-bg);
   text-transform: capitalize;
   font-family: Arial, Helvetica, sans-serif;
@@ -83,4 +83,11 @@ body {
 
 .keyboard-region-grid .keyboard-key {
   flex: 1;
+}
+
+.keyboard-key-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 1rem;
 }
