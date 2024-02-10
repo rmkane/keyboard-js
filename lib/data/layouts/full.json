@@ -30,7 +30,8 @@
             }
           ],
           "style": {
-            "display": "flex"
+            "display": "flex",
+            "marginBottom": "0.5rem"
           }
         },
         {
@@ -117,7 +118,8 @@
             }
           ],
           "style": {
-            "display": "flex"
+            "display": "flex",
+            "marginBottom": "0.5rem"
           }
         },
         {

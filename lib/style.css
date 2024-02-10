@@ -85,6 +85,11 @@ body {
   flex: 1;
 }
 
+.keyboard-key:hover {
+  background-color: #ffd;
+  cursor: pointer;
+}
+
 .keyboard-key-inner {
   display: flex;
   flex-direction: column;
